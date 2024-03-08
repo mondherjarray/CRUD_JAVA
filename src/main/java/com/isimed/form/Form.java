@@ -39,25 +39,11 @@ public class Form extends JFrame {
         JLabel labelNom = new JLabel("Nom:");
         JLabel labelPrenom = new JLabel("Prénom:");
         JLabel labelEmail = new JLabel("Email:");
-        JLabel labelDateNaissance = new JLabel("Date de Naissance:");
-        JLabel labelGenre = new JLabel("Genre:");
-        JLabel labelInterets = new JLabel("Centres d'intérêt:");
 
         textFieldNom = new JTextField(20);
         textFieldPrenom = new JTextField(20);
         textFieldEmail = new JTextField(20);
-        textFieldDateNaissance = new JTextField(20);
-
-        radioButtonHomme = new JRadioButton("Homme");
-        radioButtonFemme = new JRadioButton("Femme");
-
-        ButtonGroup genreGroup = new ButtonGroup();
-        genreGroup.add(radioButtonHomme);
-        genreGroup.add(radioButtonFemme);
-
-        checkBoxSport = new JCheckBox("Sport");
-        checkBoxMusic = new JCheckBox("Musique");
-        checkBoxVoyage = new JCheckBox("Voyage");
+       
 
         JButton buttonEnregistrer = new JButton("Enregistrer");
         JButton buttonVider = new JButton("Vider");
@@ -140,21 +126,7 @@ public class Form extends JFrame {
         panelEmailDate.setLayout(new FlowLayout());
         panelEmailDate.add(labelEmail);
         panelEmailDate.add(textFieldEmail);
-        panelEmailDate.add(labelDateNaissance);
-        panelEmailDate.add(textFieldDateNaissance);
 
-        JPanel panelGenre = new JPanel();
-        panelGenre.setLayout(new FlowLayout());
-        panelGenre.add(labelGenre);
-        panelGenre.add(radioButtonHomme);
-        panelGenre.add(radioButtonFemme);
-
-        JPanel panelInterets = new JPanel();
-        panelInterets.setLayout(new FlowLayout());
-        panelInterets.add(labelInterets);
-        panelInterets.add(checkBoxSport);
-        panelInterets.add(checkBoxMusic);
-        panelInterets.add(checkBoxVoyage);
 
         JPanel panelBoutons = new JPanel();
         panelBoutons.setLayout(new FlowLayout());
@@ -173,8 +145,6 @@ public class Form extends JFrame {
         setLayout(new BorderLayout());
         add(panelInfoPersonnelle, BorderLayout.NORTH);
         add(panelEmailDate, BorderLayout.CENTER);
-        add(panelGenre, BorderLayout.SOUTH);
-        add(panelInterets, BorderLayout.WEST);
         add(panelBoutons, BorderLayout.SOUTH);
         
         // Gestion des événements
@@ -201,8 +171,6 @@ public class Form extends JFrame {
         setLayout(new GridLayout(8, 1));
         add(panelInfoPersonnelle);
         add(panelEmailDate);
-        add(panelGenre);
-        add(panelInterets);
         add(panelBoutons);
         add(panelUser);
         add(panelFind);
@@ -212,7 +180,7 @@ public class Form extends JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/cours";
+            String url = "jdbc:mysql://localhost:3306/java_users_db";
             String user = "root";
             String pass = "";
 
@@ -221,13 +189,13 @@ public class Form extends JFrame {
             DefaultTableModel model = new DefaultTableModel(new String[] { "ID", "First Name",
                 "Last Name", "email" },0);
             jTable1.setModel(model);
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT * FROM user";
             ResultSet rs = st.executeQuery(sql);
             String i, f, l, e;
             while (rs.next()) {
                 i = rs.getString("id");
-                f = rs.getString("nom");
-                l = rs.getString("prenom");
+                f = rs.getString("first_name");
+                l = rs.getString("last_name");
                 e = rs.getString("email");
                 model.addRow(new Object[] { i, f, l, e });
             }
@@ -247,7 +215,7 @@ public class Form extends JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/cours";
+            String url = "jdbc:mysql://localhost:3306/java_users_db";
             String user = "root";
             String pass = "";
 
@@ -259,11 +227,11 @@ public class Form extends JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "ID is require", "Dialog",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                String sql = "SELECT * FROM users WHERE id=" + ID;
+                String sql = "SELECT * FROM user WHERE id=" + ID;
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     notFound = 1;
-                    String sql2 = "DELETE FROM users WHERE id=" + ID;
+                    String sql2 = "DELETE FROM user WHERE id=" + ID;
                     st.executeUpdate(sql2);
                     loadData();
                     con.close();
@@ -286,7 +254,7 @@ public class Form extends JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/cours";
+            String url = "jdbc:mysql://localhost:3306/java_users_db";
             String user = "root";
             String pass = "";
 
@@ -298,11 +266,11 @@ public class Form extends JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "ID is require", "Dialog",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                String sql = "SELECT * FROM users WHERE id=" + ID;
+                String sql = "SELECT * FROM user WHERE id=" + ID;
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    textFieldNom.setText(rs.getString("nom"));
-                    textFieldPrenom.setText(rs.getString("prenom"));
+                    textFieldNom.setText(rs.getString("first_name"));
+                    textFieldPrenom.setText(rs.getString("last_name"));
                     textFieldEmail.setText(rs.getString("email"));
                     notFound = 1;
                     loadData();
@@ -328,7 +296,7 @@ public class Form extends JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/cours";
+            String url = "jdbc:mysql://localhost:3306/java_users_db";
             String user = "root";
             String pass = "";
 
@@ -340,14 +308,14 @@ public class Form extends JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "ID is require", "Dialog",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                String sql = "SELECT * FROM users WHERE id=" + ID;
+                String sql = "SELECT * FROM user WHERE id=" + ID;
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     notFound = 1;
                     fN = textFieldNom.getText();
                     lN = textFieldPrenom.getText();
                     em = textFieldEmail.getText();
-                    String sql2 = "UPDATE users SET nom='" + fN + "', prenom='" + lN + "', email='" + em
+                    String sql2 = "UPDATE user SET first_name='" + fN + "', last_name='" + lN + "', email='" + em
                             + "'  WHERE id=" + ID;
                     st.executeUpdate(sql2);
                     loadData();
@@ -386,14 +354,11 @@ public class Form extends JFrame {
     Connection connection = seconnecter();
          System.out.println("connexion etablie");
 // Requête d'insertion
-        String sql = "INSERT INTO user (nom, prenom, email, date_naissance, genre, interets) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (first_name, last_name, email) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nom);
             statement.setString(2, prenom);
             statement.setString(3, email);
-            statement.setString(4, dateNaissance);
-            statement.setString(5, genre);
-            statement.setString(6, interets);
             // Exécution de la requête
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -407,7 +372,7 @@ public class Form extends JFrame {
 public static Connection seconnecter() {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:3306/jarray";
+        String url = "jdbc:mysql://localhost:3306/java_users_db";
         String nom_user = "root";
         String mdp = "";
         Connection cnx = DriverManager.getConnection(url, nom_user, mdp);
@@ -434,6 +399,10 @@ public static Connection seconnecter() {
     }
 
     public static void main(String[] args) {
-         new exemple().setVisible(true);
+        
+         Form exp = new Form();
+         exp.loadData();
+         exp.setVisible(true);
+         
     }
 }
