@@ -106,14 +106,7 @@ public class Form extends JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
-        JButton openUserListButton = new JButton("Open User List");
-        openUserListButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Users userListFrame = new Users();
-                userListFrame.setVisible(true);
-            }
-        });
+        
         // Utilisation de JPanel avec FlowLayout pour organiser les composants
         JPanel panelInfoPersonnelle = new JPanel();
         panelInfoPersonnelle.setLayout(new FlowLayout());
@@ -140,7 +133,6 @@ public class Form extends JFrame {
         panelFind.add(search);
         panelFind.add(searchBtn);
         JPanel panelUser = new JPanel();
-        panelUser.add(openUserListButton);
         // Utilisation d'un conteneur BorderLayout pour organiser les panneaux
         setLayout(new BorderLayout());
         add(panelInfoPersonnelle, BorderLayout.NORTH);
