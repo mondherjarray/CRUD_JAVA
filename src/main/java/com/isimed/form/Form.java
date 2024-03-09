@@ -266,7 +266,7 @@ public class Form extends JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "ID is require", "Dialog",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                String sql = "SELECT * FROM user WHERE id=" + recherche +" OR nom LIKE %"+recherche+"% LIMIT 1";
+                String sql = "SELECT * FROM user WHERE id=" + recherche;
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     textFieldNom.setText(rs.getString("first_name"));
@@ -336,19 +336,7 @@ public class Form extends JFrame {
     String nom = textFieldNom.getText();
     String prenom = textFieldPrenom.getText();
     String email = textFieldEmail.getText();
-    String dateNaissance = textFieldDateNaissance.getText();
-    String genre = radioButtonHomme.isSelected() ? "Homme" : "Femme";
-    String interets = "";
-    if (checkBoxSport.isSelected()) {
-        interets += "Sport ";
-    }
-    if (checkBoxMusic.isSelected()) {
-        interets += "Musique ";
-    }
-    if (checkBoxVoyage.isSelected()) {
-        interets += "Voyage ";
-    }
-
+   
     try{
     Connection connection = seconnecter();
          System.out.println("connexion etablie");
@@ -388,12 +376,6 @@ public static Connection seconnecter() {
         textFieldNom.setText("");
         textFieldPrenom.setText("");
         textFieldEmail.setText("");
-        textFieldDateNaissance.setText("");
-        radioButtonHomme.setSelected(false);
-        radioButtonFemme.setSelected(false);
-        checkBoxSport.setSelected(false);
-        checkBoxMusic.setSelected(false);
-        checkBoxVoyage.setSelected(false);
        
     }
 
