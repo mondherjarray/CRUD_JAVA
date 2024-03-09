@@ -249,7 +249,7 @@ public class Form extends JFrame {
     }                                      
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
- String ID;
+         String recherche;
         int notFound = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -261,12 +261,12 @@ public class Form extends JFrame {
             Connection con = DriverManager.getConnection(url, user, pass);
             Statement st = con.createStatement();
 
-            ID = search.getText();
-            if ("".equals(ID)) {
+            recherche = search.getText();
+            if ("".equals(recherche)) {
                 JOptionPane.showMessageDialog(new JFrame(), "ID is require", "Dialog",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                String sql = "SELECT * FROM user WHERE id=" + ID;
+                String sql = "SELECT * FROM user WHERE id=" + recherche +" OR nom LIKE %"+recherche+"% LIMIT 1";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     textFieldNom.setText(rs.getString("first_name"));
@@ -275,7 +275,6 @@ public class Form extends JFrame {
                     notFound = 1;
                     loadData();
                     con.close();
-
                 }
                 if (notFound == 0) {
                     JOptionPane.showMessageDialog(new JFrame(), "invalid ID", "Dialog",
